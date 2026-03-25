@@ -42,17 +42,20 @@ async function createDivMetal(name, symbol) {
     divMetal.classList.add("metal");
     divMetal.classList.add(name.toLowerCase());
 
-    let divMetalData = document.createElement("div")
-    let h1 = document.createElement("h1")
-    h1.textContent = `${name}/${symbol}`
+    let divMetalData = document.createElement("div");
+    divMetal.classList.add("metalData");
 
-    let h2 = document.createElement("h2")
-    h2.dataset.symbol = symbol
-    console.log(h2.dataset.symbol);
-    h2.textContent = await chargePrice(symbol, h2);
+    let titleText = document.createElement("p");
+    titleText.classList.add("titleText");
+    titleText.textContent = `${name}/${symbol}`
 
-    divMetalData.appendChild(h1);
-    divMetalData.appendChild(h2);
+    let priceText = document.createElement("p")
+    divMetal.classList.add("priceText");
+    priceText.dataset.symbol = symbol
+    priceText.textContent = await chargePrice(symbol);
+
+    divMetalData.appendChild(titleText);
+    divMetalData.appendChild(priceText);
     divMetal.appendChild(divMetalData);
     container.appendChild(divMetal);
     container.appendChild
@@ -73,7 +76,7 @@ async function chargePrice(symbol) {
 
 async function updatePrices() {
     console.log("i");
-    const priceElements = document.querySelectorAll("h2[data-symbol]");
+    const priceElements = document.querySelectorAll("p[data-symbol]");
     await Promise.all(
         Array.from(priceElements).map(async (el) => {
             const symbol = el.dataset.symbol;
