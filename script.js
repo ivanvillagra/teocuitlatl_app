@@ -67,7 +67,8 @@ async function loadAPI() {
 async function chargePrice(symbol) {
     const response = await fetch(`${API.apiUrlPrice}${symbol}`);
     const data = await response.json();
-    return String(data.price);
+    let price = formatPriceToUSD(data.price); 
+    return price;
 }
 
 async function updatePrices() {
@@ -79,6 +80,12 @@ async function updatePrices() {
             el.textContent = await chargePrice(symbol);
         })
     );
+}
+
+function formatPriceToUSD(price){
+
+    return String(new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price));
+
 }
 
 
