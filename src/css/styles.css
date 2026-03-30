@@ -19,6 +19,14 @@ nav {
     border-bottom: 2px solid black;
     background: #43D0A1;
     background: linear-gradient(169deg, rgba(67, 208, 161, 1) 22%, rgba(61, 186, 157, 1) 57%, rgba(9, 9, 121, 1) 100%, rgba(0, 212, 255, 1) 100%);
+    max-height: 170px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+div.logo {
+    background-size: cover;
 }
 
 footer {
@@ -91,30 +99,30 @@ footer {
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-   .container {
+    .container {
         grid-template-columns: repeat(3, 1fr);
     }
 
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-    .container {
-        grid-template-columns: repeat(4, 1fr);
+    /* Medium devices (landscape tablets, 768px and up) */
+    @media only screen and (min-width: 768px) {
+        .container {
+            grid-template-columns: repeat(4, 1fr);
+        }
     }
-}
 
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-    .container {
-        grid-template-columns: repeat(6, 1fr);
+    /* Large devices (laptops/desktops, 992px and up) */
+    @media only screen and (min-width: 992px) {
+        .container {
+            grid-template-columns: repeat(6, 1fr);
+        }
     }
-}
 
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
-    .container {
-        grid-template-columns: repeat(7, 1fr);
+    /* Extra large devices (large laptops and desktops, 1200px and up) */
+    @media only screen and (min-width: 1200px) {
+        .container {
+            grid-template-columns: repeat(7, 1fr);
+        }
     }
-}
 
 
 

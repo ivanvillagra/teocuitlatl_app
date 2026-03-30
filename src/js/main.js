@@ -28,7 +28,7 @@ async function fetchJSON(url) {
 
 // ---------- LOADERS ----------
 async function loadAPI() {
-    API = await fetchJSON('./data/api.json');
+    API = await fetchJSON('../public/data/api.json');
 }
 
 async function chargeCurrencies() {
