@@ -1,4 +1,5 @@
 {
     "apiSymbols":"https://api.gold-api.com/symbols",
-    "apiUrlPrice":"https://api.gold-api.com/price/"
+    "apiUrlPrice":"https://api.gold-api.com/price/",
+    "apiCurrencies":"https://api.exchangerate.host/latest?"
 }

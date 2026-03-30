@@ -1,37 +1,50 @@
-
 let API = null;
 let DATASYMBOL = null;
+let CURRENCYS = null;
+
+const container = document.querySelector(".container");
 
 document.addEventListener('DOMContentLoaded', async () => {
+    await loadAPI();
+    await Promise.all([
+        chargeCurrencies(),
+        chargeSymbols()
+    ]);
 
-    await loadAPI()
-    //await charge();
-    await chargeSymbols();
-    console.log(DATASYMBOL);
-    chargeElements();
+    console.log(CURRENCYS);
 
+    await chargeElements();
 });
 
-setInterval(async () => {
-     await updatePrices();
-    console.log("update prices");
-}, 3000);
+setInterval(updatePrices, 3000);
 
+
+// ---------- FETCH HELPERS ----------
+async function fetchJSON(url) {
+    const response = await fetch(url);
+    return response.json();
+}
+
+
+// ---------- LOADERS ----------
+async function loadAPI() {
+    API = await fetchJSON('./data/api.json');
+}
+
+async function chargeCurrencies() {
+    CURRENCYS = await fetchJSON(API.apiCurrencies);
+}
 
 async function chargeSymbols() {
-    await fetch(API.apiSymbols)
-        .then(response => response.json())
-        .then(data => { DATASYMBOL = data });
+    DATASYMBOL = await fetchJSON(API.apiSymbols);
 }
-
-async function charge() {
-    await fetch(API.apiUrl)
-        .then(response => response.json())
-        .then(data => { DATA = data });
-}
-
+// ---------- UI ----------
 async function chargeElements() {
-    await Promise.all(DATASYMBOL.map(element => createDivMetal(element.name, element.symbol)));
+    await Promise.all(
+        DATASYMBOL.map(({ name, symbol }) =>
+            createDivMetal(name, symbol)
+        )
+    );
 }
 
 async function createDivMetal(name, symbol) {
@@ -61,35 +74,27 @@ async function createDivMetal(name, symbol) {
     container.appendChild
 }
 
-async function loadAPI() {
-    const response = await fetch('./data/api.json');
-    API = await response.json();
-}
-
-
+// ---------- PRICES ----------
 async function chargePrice(symbol) {
-    const response = await fetch(`${API.apiUrlPrice}${symbol}`);
-    const data = await response.json();
-    let price = formatPriceToUSD(data.price); 
-    return price;
+    const data = await fetchJSON(`${API.apiUrlPrice}${symbol}`);
+    return formatPriceToUSD(data.price);
 }
 
 async function updatePrices() {
-    console.log("i");
-    const priceElements = document.querySelectorAll("p[data-symbol]");
+    const priceElements = document.querySelectorAll("[data-symbol]");
+
     await Promise.all(
-        Array.from(priceElements).map(async (el) => {
-            const symbol = el.dataset.symbol;
-            el.textContent = await chargePrice(symbol);
+        [...priceElements].map(async (el) => {
+            el.textContent = await chargePrice(el.dataset.symbol);
         })
     );
 }
 
-function formatPriceToUSD(price){
 
-    return String(new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price));
-
+// ---------- FORMAT ----------
+function formatPriceToUSD(price) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    }).format(price);
 }
-
-
-
